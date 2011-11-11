@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>jQuery.stepout example/demo</title>
+  <meta name="description" content="jQuery stepout Example" /> 
+  <meta name="author" content="Matthias Schmidt - http://m-schmidt.eu" />
+  <style type="text/css" media="screen">
+    #container {
+      min-height: 1000px;
+    }
+  </style>
+  <link rel="stylesheet" href="../css/stepout.css" type="text/css" />
+  <style type="text/css" media="screen">
+    #container {
+      padding: 100px;
+    }
+    img {
+      width: 300px;
+    }
+  </style>
+
+  <script src="../js/jquery-1.7.js" type="text/javascript"></script>
+  <script src="../js/jquery.stepout.js" type="text/javascript"></script>
+  <script type="text/javascript" charset="utf-8">    
+    $(function() {
+      $('#stepout').stepout({
+        auto: true,
+        pause: 3500,
+        bigWidth: 576,
+        bigOffset: 110
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <h1>jQuery.stepout</h1>
+  <div id="container">
+    <div id="stepout">
+      <ul>
+        <li><a href="#"><img src="../images/blog_big.png" /></a></li>
+        <li><a href="#"><img src="../images/chapters_big.png" /></a></li>
+        <li><a href="#"><img src="../images/unsorted_big.png" /></a></li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
