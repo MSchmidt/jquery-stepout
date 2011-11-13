@@ -11,6 +11,7 @@ Options:
   **auto** (optional, defaults to true) - whether animation should run automatically.
   **pause** (optional, defaults to 3500) - how log to wait between automatic animation moves.
   **bigWidth** (optional, defaults to 500) - width in pixel for the focused image
+  **bigOffset** (optional, defaults to 100) - offset for positioning the focused image
 ###
 
 $ = jQuery
@@ -43,6 +44,10 @@ $.fn.stepout = (options) ->
     focus_item = null
     focus_item_delta = null
 
+    getCentralItem = ->
+      central_item_index = Math.ceil($self.scrollLeft() / singleWidth + 1)
+      return $items.filter(":nth(#{central_item_index})").find('img')
+
     unfocus = ->
       $('.jquery-stepout-focused').animate
         left: '+=' + focus_item_delta.left
@@ -53,13 +58,12 @@ $.fn.stepout = (options) ->
           $(this).remove()
           focus_item = null
 
-    focus = (central_item_pos) ->
-      central_item_index = Math.ceil($self.scrollLeft() / singleWidth + 1)
-      central_item = $items.filter(":nth(#{central_item_index})").find('img')
+    focus = (central_item) ->
+      central_item ||= getCentralItem()
       focus_item = central_item.clone()
       focus_item.css
         position: 'absolute'
-        left: central_item.position().left
+        left: central_item.position().left + $self.scrollLeft()
         top: central_item.position().top
       focus_item.addClass('jquery-stepout-focused')
       $self.append(focus_item)
@@ -72,7 +76,8 @@ $.fn.stepout = (options) ->
         width: options.bigWidth,
         300
 
-    focus()
+    getCentralItem().load ->
+      focus($(this))
 
     move = (direction) ->
       if direction == 'next'

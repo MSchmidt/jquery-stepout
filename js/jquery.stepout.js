@@ -12,6 +12,7 @@
     **auto** (optional, defaults to true) - whether animation should run automatically.
     **pause** (optional, defaults to 3500) - how log to wait between automatic animation moves.
     **bigWidth** (optional, defaults to 500) - width in pixel for the focused image
+    **bigOffset** (optional, defaults to 100) - offset for positioning the focused image
   */
   var $;
   $ = jQuery;
@@ -23,7 +24,7 @@
       bigOffset: 100
     }, options || {});
     return this.each(function() {
-      var $items, $self, $single, auto_handler, focus, focus_item, focus_item_delta, move, next, position, prev, singleWidth, startAuto, stopAuto, totalWidth, unfocus;
+      var $items, $self, $single, auto_handler, focus, focus_item, focus_item_delta, getCentralItem, move, next, position, prev, singleWidth, startAuto, stopAuto, totalWidth, unfocus;
       $self = $(this);
       $self.addClass('jquery-stepout-wrapper');
       $items = $self.find('li');
@@ -38,6 +39,11 @@
       position = 0;
       focus_item = null;
       focus_item_delta = null;
+      getCentralItem = function() {
+        var central_item_index;
+        central_item_index = Math.ceil($self.scrollLeft() / singleWidth + 1);
+        return $items.filter(":nth(" + central_item_index + ")").find('img');
+      };
       unfocus = function() {
         return $('.jquery-stepout-focused').animate({
           left: '+=' + focus_item_delta.left,
@@ -48,14 +54,12 @@
           return focus_item = null;
         });
       };
-      focus = function(central_item_pos) {
-        var central_item, central_item_index;
-        central_item_index = Math.ceil($self.scrollLeft() / singleWidth + 1);
-        central_item = $items.filter(":nth(" + central_item_index + ")").find('img');
+      focus = function(central_item) {
+        central_item || (central_item = getCentralItem());
         focus_item = central_item.clone();
         focus_item.css({
           position: 'absolute',
-          left: central_item.position().left,
+          left: central_item.position().left + $self.scrollLeft(),
           top: central_item.position().top
         });
         focus_item.addClass('jquery-stepout-focused');
@@ -70,7 +74,9 @@
           width: options.bigWidth
         }, 300);
       };
-      focus();
+      getCentralItem().load(function() {
+        return focus($(this));
+      });
       move = function(direction) {
         var scroll_prefix;
         if (direction === 'next') {

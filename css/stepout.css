@@ -1,5 +1,6 @@
 .jquery-stepout-wrapper {
   overflow: hidden;
+  position: relative;
 }
 .jquery-stepout-wrapper ul {
   list-style: none;
@@ -10,4 +11,7 @@
 .jquery-stepout-wrapper ul li {
   float: left;
   margin: 7px;
+}
+.jquery-stepout-wrapper ul li img {
+  vertical-align: middle;
 }
