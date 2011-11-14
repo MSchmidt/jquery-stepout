@@ -35,8 +35,8 @@
       $items.first().before($items.clone().addClass('clone'));
       $items.last().after($items.clone().addClass('clone'));
       $items = $self.find('li');
-      $self.scrollLeft(totalWidth);
-      position = 0;
+      $self.scrollLeft(totalWidth - singleWidth);
+      position = -1;
       focus_item = null;
       focus_item_delta = null;
       getCentralItem = function() {
@@ -56,6 +56,7 @@
       };
       focus = function(central_item) {
         central_item || (central_item = getCentralItem());
+        $self.trigger('focus', central_item);
         focus_item = central_item.clone();
         focus_item.css({
           position: 'absolute',
@@ -79,10 +80,13 @@
       });
       move = function(direction) {
         var scroll_prefix;
+        $self.trigger('move');
         if (direction === 'next') {
           scroll_prefix = '+=';
+          $self.trigger('next');
         } else {
           scroll_prefix = '-=';
+          $self.trigger('prev');
         }
         if (focus_item) {
           focus_item.remove();
@@ -122,8 +126,6 @@
           return move('prev');
         }
       };
-      window.next = next;
-      window.prev = prev;
       $self.find('a').click(function(e) {
         e.preventDefault();
         if (!focus_item) {

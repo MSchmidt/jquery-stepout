@@ -38,9 +38,9 @@ $.fn.stepout = (options) ->
     $items = $self.find('li')
 
     # reset position for actual first
-    $self.scrollLeft(totalWidth)
+    $self.scrollLeft(totalWidth - singleWidth)
 
-    position = 0
+    position = -1
     focus_item = null
     focus_item_delta = null
 
@@ -60,6 +60,7 @@ $.fn.stepout = (options) ->
 
     focus = (central_item) ->
       central_item ||= getCentralItem()
+      $self.trigger('focus', central_item)
       focus_item = central_item.clone()
       focus_item.css
         position: 'absolute'
@@ -80,10 +81,13 @@ $.fn.stepout = (options) ->
       focus($(this))
 
     move = (direction) ->
+      $self.trigger('move')
       if direction == 'next'
         scroll_prefix = '+='
+        $self.trigger('next')
       else
         scroll_prefix = '-='
+        $self.trigger('prev')
 
       focus_item.remove() if focus_item
       $self.filter(':not(:animated)').animate
@@ -116,9 +120,6 @@ $.fn.stepout = (options) ->
         setTimeout(move, 300, 'prev')
       else
         move('prev')
-
-    window.next = next
-    window.prev = prev
 
     $self.find('a').click (e) ->
       e.preventDefault()

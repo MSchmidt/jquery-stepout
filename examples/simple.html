@@ -38,6 +38,22 @@
         bigWidth: 576,
         bigOffset: 100
       });
+      // Events triggered by jquery-stepout:
+      /*
+      $('#stepout').bind('focus', function(e, item){
+        console.log('focus triggered');
+        console.log(item);
+      });
+      $('#stepout').bind('move', function(){
+        console.log('move triggered');
+      });
+      $('#stepout').bind('next', function(){
+        console.log('next triggered');
+      });
+      $('#stepout').bind('prev', function(){
+        console.log('prev triggered');
+      });
+      */
     });
   </script>
 </head>
@@ -47,7 +63,7 @@
   <div id="container">
     <div id="stepout">
       <ul>
-        <li><a href="#"><img src="../images/blog_big.png" /></a></li>
+        <li><a href="#"><img src="../images/blog_big.png" class="xcv" /></a></li>
         <li><a href="#"><img src="../images/chapters_big.png" /></a></li>
         <li><a href="#"><img src="../images/unsorted_big.png" /></a></li>
       </ul>
