@@ -79,33 +79,25 @@
         return focus($(this));
       });
       move = function(direction) {
-        var scroll_prefix;
+        var scroll_inc;
         $self.trigger('move');
         if (direction === 'next') {
-          scroll_prefix = '+=';
+          scroll_inc = 1;
           $self.trigger('next');
         } else {
-          scroll_prefix = '-=';
+          scroll_inc = -1;
           $self.trigger('prev');
         }
         if (focus_item) {
           focus_item.remove();
         }
         return $self.filter(':not(:animated)').animate({
-          scrollLeft: scroll_prefix + singleWidth
+          scrollLeft: (position + 3 + scroll_inc) * singleWidth
         }, 300, function() {
-          if (direction === 'next') {
-            position++;
-            if (position === 3) {
-              $self.scrollLeft(0);
-              position = -3;
-            }
-          } else {
-            position--;
-            if (position === -3) {
-              $self.scrollLeft(2 * totalWidth);
-              position = 3;
-            }
+          position += scroll_inc;
+          if (position === -3 || position === 3) {
+            $self.scrollLeft(totalWidth);
+            position = 0;
           }
           return focus();
         });
