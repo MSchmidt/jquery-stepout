@@ -96,8 +96,8 @@ $.fn.stepout = (options) ->
         ->
           position += scroll_inc
           if position == -3 || position == 3
-              $self.scrollLeft(totalWidth)
-              position = 0
+            $self.scrollLeft(totalWidth)
+            position = 0
 
           focus()
 
