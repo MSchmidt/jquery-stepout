@@ -1,6 +1,7 @@
 (function() {
+
   /*
-  jQuery stepout plugin v1.0
+  jQuery stepout plugin v1.1
     - carousel with zooming effect
   
   (c) 2011 Matthias Schmidt <http://m-schmidt.eu/>
@@ -14,8 +15,11 @@
     **bigWidth** (optional, defaults to 500) - width in pixel for the focused image
     **bigOffset** (optional, defaults to 100) - offset for positioning the focused image
   */
+
   var $;
+
   $ = jQuery;
+
   $.fn.stepout = function(options) {
     options = $.extend({
       auto: true,
@@ -56,7 +60,7 @@
       };
       focus = function(central_item) {
         central_item || (central_item = getCentralItem());
-        $self.trigger('focus', central_item);
+        $self.trigger('focus_start', central_item);
         focus_item = central_item.clone();
         focus_item.css({
           position: 'absolute',
@@ -88,9 +92,7 @@
           scroll_inc = -1;
           $self.trigger('prev');
         }
-        if (focus_item) {
-          focus_item.remove();
-        }
+        if (focus_item) focus_item.remove();
         return $self.filter(':not(:animated)').animate({
           scrollLeft: (position + 3 + scroll_inc) * singleWidth
         }, 300, function() {
@@ -105,24 +107,26 @@
       next = function() {
         if (focus_item) {
           unfocus();
-          return setTimeout(move, 300, 'next');
+          setTimeout(function() {
+            return move('next');
+          }, 300);
         } else {
-          return move('next');
+          move('next');
         }
       };
       prev = function() {
         if (focus_item) {
           unfocus();
-          return setTimeout(move, 300, 'prev');
+          return setTimeout(function() {
+            return move('prev');
+          }, 300);
         } else {
           return move('prev');
         }
       };
       $self.find('a').click(function(e) {
         e.preventDefault();
-        if (!focus_item) {
-          return;
-        }
+        if (!focus_item) return;
         if ($(this).offset().left > focus_item.offset().left) {
           return next();
         } else {
@@ -150,4 +154,5 @@
       }
     });
   };
+
 }).call(this);

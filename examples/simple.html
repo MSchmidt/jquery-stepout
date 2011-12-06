@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title>jQuery.stepout example/demo</title>
-  <meta name="description" content="jQuery stepout Example" /> 
+  <meta name="description" content="jQuery stepout Example" />
   <meta name="author" content="Matthias Schmidt - http://m-schmidt.eu" />
   <style type="text/css" media="screen">
     #container {
@@ -25,12 +25,13 @@
     }
     img {
       width: 300px;
+      border: none;
     }
   </style>
 
   <script src="../js/jquery-1.7.js" type="text/javascript"></script>
   <script src="../js/jquery.stepout.js" type="text/javascript"></script>
-  <script type="text/javascript" charset="utf-8">    
+  <script type="text/javascript" charset="utf-8">
     $(function() {
       $('#stepout').stepout({
         auto: true,
@@ -40,7 +41,7 @@
       });
       // Events triggered by jquery-stepout:
       /*
-      $('#stepout').bind('focus', function(e, item){
+      $('#stepout').bind('focus_start', function(e, item){
         console.log('focus triggered');
         console.log(item);
       });

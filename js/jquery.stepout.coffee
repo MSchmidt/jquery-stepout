@@ -1,5 +1,5 @@
 ###
-jQuery stepout plugin v1.0
+jQuery stepout plugin v1.1
   - carousel with zooming effect
 
 (c) 2011 Matthias Schmidt <http://m-schmidt.eu/>
@@ -60,7 +60,7 @@ $.fn.stepout = (options) ->
 
     focus = (central_item) ->
       central_item ||= getCentralItem()
-      $self.trigger('focus', central_item)
+      $self.trigger('focus_start', central_item)
       focus_item = central_item.clone()
       focus_item.css
         position: 'absolute'
@@ -104,14 +104,20 @@ $.fn.stepout = (options) ->
     next = ->
       if focus_item
         unfocus()
-        setTimeout(move, 300, 'next')
+        # use anomynous function here for IE bug that ignores 3rd argument in setTimeout
+        setTimeout ->
+          move('next')
+        , 300
       else
         move('next')
+      return
 
     prev = ->
       if focus_item
         unfocus()
-        setTimeout(move, 300, 'prev')
+        setTimeout ->
+          move('prev')
+        , 300
       else
         move('prev')
 
